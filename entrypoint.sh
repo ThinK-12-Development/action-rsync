@@ -34,7 +34,7 @@ rsync --archive \
       --compress \
       --quiet \
       --recursive \
-      --exclude_from "$EXCLUSIONS_FILE" \
+      --exclude-from "$EXCLUSIONS_FILE" \
       --rsh "$PROXY_SHELL" \
       --rsh "$REMOTE_SHELL" \
       "$INPUT_SOURCE" "$REMOTE_DESTINATION"
