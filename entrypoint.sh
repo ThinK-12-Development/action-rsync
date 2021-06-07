@@ -8,29 +8,24 @@ set -eu
 
 mkdir .ssh
 
-echo "$INPUT_KEY" > remote.key
-echo "$INPUT_PROXY_KEY" > proxy.key
+echo "$INPUT_KEY" > .ssh/remote.key
+echo "$INPUT_PROXY_KEY" > .ssh/proxy.key
 
-echo "Host destination" > .ssh/config
-echo " User $INPUT_USER" >> .ssh/config
-echo " HostName $INPUT_HOST" >> .ssh/config
-echo " StrictHostKeyChecking=no" >> .ssh/config
-echo " IdentityFile ~/.ssh/remote.key" >> .ssh/config
-echo " ProxyJump proxy" >> .ssh/config
+echo "Host destination" >> /etc/ssh/ssh_config
+echo " User $INPUT_USER" >> /etc/ssh/ssh_config
+echo " HostName $INPUT_HOST" >> /etc/ssh/ssh_config
+echo " StrictHostKeyChecking=no" >> /etc/ssh/ssh_config
+echo " IdentityFile ~/.ssh/remote.key" >> /etc/ssh/ssh_config
+echo " ProxyJump proxy" >> /etc/ssh/ssh_config
 
-echo "Host proxy" > .ssh/config
-echo " User $INPUT_PROXY_USER" >> .ssh/config
-echo " HostName $INPUT_PROXY_HOST" >> .ssh/config
-echo " StrictHostKeyChecking=no" >> .ssh/config
-echo " IdentityFile ~/.ssh/proxy.key" >> .ssh/config
+echo "Host proxy" > /etc/ssh/ssh_config
+echo " User $INPUT_PROXY_USER" >> /etc/ssh/ssh_config
+echo " HostName $INPUT_PROXY_HOST" >> /etc/ssh/ssh_config
+echo " StrictHostKeyChecking=no" >> /etc/ssh/ssh_config
+echo " IdentityFile ~/.ssh/proxy.key" >> /etc/ssh/ssh_config
 
 chmod 600 .ssh
-chmod 400 .ssh/config
-chmod 400 remote.key
-chmod 400 proxy.key
-
-mv remote.key .ssh
-mv proxy.key .ssh
+chmod 400 .ssh/*
 
 #
 # Add default file exclusions
