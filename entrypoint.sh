@@ -6,10 +6,11 @@ set -eu
 # Prepare SSH config
 #
 
-mkdir .ssh
+echo "$INPUT_KEY" > /etc/ssh/remote.key
+echo "$INPUT_PROXY_KEY" > /etc/ssh/proxy.key
 
-echo "$INPUT_KEY" > .ssh/remote.key
-echo "$INPUT_PROXY_KEY" > .ssh/proxy.key
+chmod 400 /etc/ssh/remote.key
+chmod 400 /etc/ssh/proxy.key
 
 echo "Host destination" >> /etc/ssh/ssh_config
 echo " User $INPUT_USER" >> /etc/ssh/ssh_config
@@ -23,9 +24,6 @@ echo " User $INPUT_PROXY_USER" >> /etc/ssh/ssh_config
 echo " HostName $INPUT_PROXY_HOST" >> /etc/ssh/ssh_config
 echo " StrictHostKeyChecking=no" >> /etc/ssh/ssh_config
 echo " IdentityFile ~/.ssh/proxy.key" >> /etc/ssh/ssh_config
-
-chmod 600 .ssh
-chmod 400 .ssh/*
 
 #
 # Add default file exclusions
@@ -53,4 +51,4 @@ rsync --archive \
       --quiet \
       --recursive \
       --exclude-from exclusions \
-      "$INPUT_SOURCE" destination:"$INPUT_DESTINATION"
+      "$INPUT_SOURCE" "destination:$INPUT_DESTINATION"
