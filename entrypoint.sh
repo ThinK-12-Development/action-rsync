@@ -17,13 +17,16 @@ echo " User $INPUT_USER" >> /etc/ssh/ssh_config
 echo " HostName $INPUT_HOST" >> /etc/ssh/ssh_config
 echo " StrictHostKeyChecking=no" >> /etc/ssh/ssh_config
 echo " IdentityFile /etc/ssh/remote.key" >> /etc/ssh/ssh_config
-echo " ProxyJump proxy" >> /etc/ssh/ssh_config
 
-echo "Host proxy" >> /etc/ssh/ssh_config
-echo " User $INPUT_PROXY_USER" >> /etc/ssh/ssh_config
-echo " HostName $INPUT_PROXY_HOST" >> /etc/ssh/ssh_config
-echo " StrictHostKeyChecking=no" >> /etc/ssh/ssh_config
-echo " IdentityFile /etc/ssh/proxy.key" >> /etc/ssh/ssh_config
+if [ ! -z "$INPUT_PROXY_DISABLED" ]; then
+    echo " ProxyJump proxy" >> /etc/ssh/ssh_config
+    
+    echo "Host proxy" >> /etc/ssh/ssh_config
+    echo " User $INPUT_PROXY_USER" >> /etc/ssh/ssh_config
+    echo " HostName $INPUT_PROXY_HOST" >> /etc/ssh/ssh_config
+    echo " StrictHostKeyChecking=no" >> /etc/ssh/ssh_config
+    echo " IdentityFile /etc/ssh/proxy.key" >> /etc/ssh/ssh_config
+fi
 
 #
 # Add default file exclusions
